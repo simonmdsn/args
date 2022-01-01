@@ -24,11 +24,10 @@ class HelpCommand<T> extends Command<T> {
   @override
   // TODO: Remove when https://github.com/dart-lang/linter/issues/2792 is fixed.
   // ignore: prefer_void_to_null
-  Null run() {
+  String run() {
     // Show the default help if no command was specified.
     if (argResults!.rest.isEmpty) {
-      runner!.printUsage();
-      return;
+      return runner!.usage;
     }
 
     // Walk the command tree to show help for the selected command or
@@ -39,16 +38,16 @@ class HelpCommand<T> extends Command<T> {
 
     for (var name in argResults!.rest) {
       if (commands.isEmpty) {
-        command!.usageException(
+        return command!.usageException(
             'Command "$commandString" does not expect a subcommand.');
       }
 
       if (commands[name] == null) {
         if (command == null) {
-          runner!.usageException('Could not find a command named "$name".');
+          return runner!.usageException('Could not find a command named "$name".');
         }
 
-        command.usageException(
+        return command.usageException(
             'Could not find a subcommand named "$name" for "$commandString".');
       }
 
@@ -57,6 +56,6 @@ class HelpCommand<T> extends Command<T> {
       commandString += ' $name';
     }
 
-    command!.printUsage();
+    return command!.usage;
   }
 }

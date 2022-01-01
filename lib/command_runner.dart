@@ -441,8 +441,8 @@ abstract class Command<T> {
   void printUsage() => print(usage);
 
   /// Throws a [UsageException] with [message].
-  Never usageException(String message) =>
-      throw UsageException(_wrap(message), _usageWithoutDescription);
+  String usageException(String message) =>
+      UsageException(_wrap(message), _usageWithoutDescription).toString();
 }
 
 /// Returns a string representation of [commands] fit for use in a usage string.
